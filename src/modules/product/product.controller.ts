@@ -49,6 +49,14 @@ const getSingleProductById = async (req: Request, res: Response) => {
 
     const dbProduct = await Product.findById(productId);
 
+    if (!dbProduct) {
+      res.status(404).json({
+        success: false,
+        message: "Product Not Found!",
+        data: null,
+      });
+    }
+
     res.status(200).json({
       success: true,
       message: "Product fetched successfully!",
@@ -63,8 +71,48 @@ const getSingleProductById = async (req: Request, res: Response) => {
   }
 };
 
+const updateSingleProductById = async (req: Request, res: Response) => {
+  try {
+    const productId = req.params.productId;
+    const productDataFromClient = req.body;
+
+    const validatedNewProductData = ProductValidationSchema.parse(
+      productDataFromClient
+    );
+
+    const updatedProductData = await Product.findByIdAndUpdate(
+      productId,
+      validatedNewProductData,
+      { new: true }
+    );
+
+    if (!updatedProductData) {
+      res.status(500).json({
+        success: false,
+        message: "Failed to update product data \n Maybe Product not Found",
+        data: null,
+      });
+    }
+
+    if (updatedProductData) {
+      res.status(200).json({
+        success: true,
+        message: "Product Updated successfully!",
+        data: updatedProductData,
+      });
+    }
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Something went wrong at updating product by ID",
+      error,
+    });
+  }
+};
+
 export const ProductController = {
   createProduct,
   getAllProduct,
   getSingleProductById,
+  updateSingleProductById,
 };
