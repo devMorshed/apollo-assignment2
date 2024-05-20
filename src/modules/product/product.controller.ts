@@ -18,11 +18,15 @@ const createProduct = async (req: Request, res: Response) => {
       data: createdProduct,
     });
   } catch (error) {
-    console.log(error);
+    res.status(500).json({
+      success: false,
+      message: "Something went wrong at adding product to DB",
+      error,
+    });
   }
 };
 
-const getAllProduct = async (req: Request, res: Response) => {
+const getAllProduct = async (_req: Request, res: Response) => {
   try {
     const fetchedProducts = await Product.find();
     res.status(200).json({
@@ -31,11 +35,36 @@ const getAllProduct = async (req: Request, res: Response) => {
       data: fetchedProducts,
     });
   } catch (error) {
-    console.log(error);
+    res.status(500).json({
+      success: false,
+      message: "Something went wrong at fetching all products",
+      error,
+    });
+  }
+};
+
+const getSingleProductById = async (req: Request, res: Response) => {
+  try {
+    const productId = req.params.productId;
+
+    const dbProduct = await Product.findById(productId);
+
+    res.status(200).json({
+      success: true,
+      message: "Product fetched successfully!",
+      data: dbProduct,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Something went wrong at fetching product by ID",
+      error,
+    });
   }
 };
 
 export const ProductController = {
   createProduct,
   getAllProduct,
+  getSingleProductById,
 };
