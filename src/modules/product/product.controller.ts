@@ -6,6 +6,9 @@ import { Product } from "./product.model";
 const createProduct = async (req: Request, res: Response) => {
   try {
     const validatedProduct = ProductValidationSchema.parse(req.body);
+    if (!validatedProduct) {
+      console.log("Recieved Invalid Product"); // Error #TODO
+    }
 
     const createdProduct = await Product.create(validatedProduct);
 
@@ -19,6 +22,20 @@ const createProduct = async (req: Request, res: Response) => {
   }
 };
 
+const getAllProduct = async (req: Request, res: Response) => {
+  try {
+    const fetchedProducts = await Product.find();
+    res.status(200).json({
+      success: true,
+      message: "Products fetched successfully!",
+      data: fetchedProducts,
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 export const ProductController = {
   createProduct,
+  getAllProduct,
 };
