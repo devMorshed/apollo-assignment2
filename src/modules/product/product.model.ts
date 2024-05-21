@@ -24,8 +24,8 @@ const ProductSchema = new Schema<IProduct>({
   },
   variants: [
     {
+      _id: false,
       type: {
-        _id: false,
         type: String,
         required: [true, "Please provide the product variants type"],
       },

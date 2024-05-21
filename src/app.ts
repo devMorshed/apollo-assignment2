@@ -2,6 +2,7 @@ import express, { Application, NextFunction, Request, Response } from "express";
 import cors from "cors";
 import config from "./config";
 import { productRoute } from "./modules/product/product.route";
+import { orderRoute } from "./modules/order/order.route";
 
 const app: Application = express();
 
@@ -17,6 +18,7 @@ app.use(express.urlencoded({ extended: true, limit: "16kb" }));
 
 // Product Routes
 app.use("/api/products", productRoute);
+app.use("/api/orders", orderRoute);
 
 // Test Route
 app.get("/api/test", (_req: Request, res: Response) =>

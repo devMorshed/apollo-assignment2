@@ -1,13 +1,12 @@
 import { Request, Response } from "express";
-import { ProductValidationSchema } from "./product.validation";
-import { Product } from "./product.model";
 import { ZodError } from "zod";
 import { ProductServices } from "./product.services";
+import { zodProductSchema } from "./product.validation";
 
 // Create New Product
 const createProduct = async (req: Request, res: Response) => {
   try {
-    const validatedProduct = ProductValidationSchema.parse(req.body);
+    const validatedProduct = zodProductSchema.parse(req.body);
 
     const createdProduct = await ProductServices.createProductIntoDb(
       validatedProduct
@@ -93,7 +92,7 @@ const updateSingleProduct = async (req: Request, res: Response) => {
   try {
     const productId = req.params.productId;
 
-    const productDataToUpdate = ProductValidationSchema.parse(req.body);
+    const productDataToUpdate = zodProductSchema.parse(req.body);
 
     const updatedProductData = await ProductServices.updateSingleProductByID(
       productId,
