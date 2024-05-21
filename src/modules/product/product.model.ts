@@ -1,16 +1,5 @@
 import { Schema, model } from "mongoose";
-import { IProduct, IVariant } from "./product.interface";
-
-const VariantSchema = new Schema<IVariant>({
-  type: {
-    type: String,
-    required: [true, "Please provide the product variants type"],
-  },
-  value: {
-    type: String,
-    required: [true, "Please provide the product variants type"],
-  },
-});
+import { IProduct } from "./product.interface";
 
 const ProductSchema = new Schema<IProduct>({
   name: {
@@ -33,10 +22,19 @@ const ProductSchema = new Schema<IProduct>({
     type: [String],
     required: [true, "Please provide the product tags"],
   },
-  variants: {
-    type: [VariantSchema],
-    required: [true, "Please provide the product variants"],
-  },
+  variants: [
+    {
+      type: {
+        _id: false,
+        type: String,
+        required: [true, "Please provide the product variants type"],
+      },
+      value: {
+        type: String,
+        required: [true, "Please provide the product variants value"],
+      },
+    },
+  ],
   inventory: {
     quantity: {
       type: Number,

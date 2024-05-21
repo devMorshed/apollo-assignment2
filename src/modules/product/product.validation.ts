@@ -1,14 +1,5 @@
 import { z } from "zod";
 
-export const VariantValidationSchema = z.object({
-  type: z
-    .string()
-    .min(1, { message: "Variant type is required and must be a string." }),
-  value: z
-    .string()
-    .min(1, { message: "Variant value is required and must be a string." }),
-});
-
 export const ProductValidationSchema = z.object({
   name: z
     .string()
@@ -26,15 +17,29 @@ export const ProductValidationSchema = z.object({
     .array(z.string().min(1, { message: "Tag must be a non-empty string." }))
     .min(1, { message: "There must be at least one tag." }),
   variants: z
-    .array(VariantValidationSchema)
-    .min(1, { message: "There must be at least one variant." }),
+    .array(
+      z.object({
+        type: z.string().min(1, {
+          message: "Variant type is required and must be a string.",
+        }),
+        value: z.string().min(1, {
+          message: "Variant value  is required and must be a string.",
+        }),
+      })
+    )
+    .optional(),
   inventory: z.object({
-    quantity: z.number().nonnegative({
-      message:
-        "Product quantity is required and must be a non-negative number.",
-    }),
-    inStock: z.boolean({
-      required_error: "In-stock status is required and must be a boolean.",
-    }),
+    quantity: z
+      .number()
+      .nonnegative({
+        message:
+          "Product quantity is required and must be a non-negative number.",
+      })
+      .default(1),
+    inStock: z
+      .boolean({
+        required_error: "In-stock status is required and must be a boolean.",
+      })
+      .default(true),
   }),
 });
