@@ -6,8 +6,18 @@ const createOderToDB = async (order: zodOrderValidation) => {
   return result;
 };
 
-const getAllOrdersFromDB = async () => {
-  const result = await Order.find();
+const getAllOrdersFromDB = async (email: string) => {
+  console.log(email);
+
+  let query = {};
+
+  if (email) {
+    query = { email };
+  }
+
+  console.log(query);
+
+  const result = await Order.find(query);
   return result;
 };
 

@@ -35,24 +35,31 @@ const createOrder = async (req: Request, res: Response) => {
 
 const getOrders = async (req: Request, res: Response) => {
   try {
-    const allOrders = await OrderServices.getAllOrdersFromDB();
+    const email = req.query.email as string;
 
-    if (allOrders.length === 0) {
+    const fetchedOrders = await OrderServices.getAllOrdersFromDB(email);
+
+    if (fetchedOrders.length === 0) {
       return res.status(404).json({
         success: false,
         message: "Order not found",
       });
     }
 
+    const message = email
+      ? "Orders fetched successfully for user email!"
+      : "Orders fetched successfully!";
+
     return res.status(200).json({
       success: true,
-      message: "Orders fetched successfully!",
-      data: allOrders,
+      message,
+      data: fetchedOrders,
     });
+    
   } catch (error) {
-    return res.status(500).json({
+    return res.status(400).json({
       success: false,
-      message: "Something went wrong",
+      message: "Failed to fetch orders!",
     });
   }
 };
