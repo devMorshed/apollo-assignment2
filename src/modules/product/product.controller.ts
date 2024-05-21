@@ -2,14 +2,16 @@ import { Request, Response } from "express";
 import { ProductValidationSchema } from "./product.validation";
 import { Product } from "./product.model";
 import { ZodError } from "zod";
-import { MongooseError } from "mongoose";
+import { ProductServices } from "./product.services";
 
 // Create New Product
 const createProduct = async (req: Request, res: Response) => {
   try {
     const validatedProduct = ProductValidationSchema.parse(req.body);
 
-    const createdProduct = await Product.create(validatedProduct);
+    const createdProduct = await ProductServices.createProductIntoDb(
+      validatedProduct
+    );
 
     return res.status(200).json({
       success: true,
@@ -35,12 +37,21 @@ const createProduct = async (req: Request, res: Response) => {
   }
 };
 
-const getAllProduct = async (_req: Request, res: Response) => {
+const getProducts = async (req: Request, res: Response) => {
   try {
-    const fetchedProducts = await Product.find();
+    const searchTerm = req.query.searchTerm as string;
+
+    const fetchedProducts = await ProductServices.getProductsFromDB(searchTerm);
+
+    const message = searchTerm
+      ? fetchedProducts.length === 0
+        ? `No Product Found by ${searchTerm}`
+        : `Products matching search term ${searchTerm} fetched successfully!`
+      : "Products fetched successfully!";
+
     return res.status(200).json({
       success: true,
-      message: "Products fetched successfully!",
+      message,
       data: fetchedProducts,
     });
   } catch (error) {
@@ -51,11 +62,11 @@ const getAllProduct = async (_req: Request, res: Response) => {
   }
 };
 
-const getSingleProductById = async (req: Request, res: Response) => {
+const getSingleProduct = async (req: Request, res: Response) => {
   try {
     const productId = req.params.productId;
 
-    const dbProduct = await Product.findById(productId);
+    const dbProduct = await ProductServices.getSingleProductByID(productId);
 
     if (!dbProduct) {
       return res.status(404).json({
@@ -78,16 +89,15 @@ const getSingleProductById = async (req: Request, res: Response) => {
   }
 };
 
-const updateSingleProductById = async (req: Request, res: Response) => {
+const updateSingleProduct = async (req: Request, res: Response) => {
   try {
     const productId = req.params.productId;
 
     const productDataToUpdate = ProductValidationSchema.parse(req.body);
 
-    const updatedProductData = await Product.findByIdAndUpdate(
+    const updatedProductData = await ProductServices.updateSingleProductByID(
       productId,
-      productDataToUpdate,
-      { new: true }
+      productDataToUpdate
     );
 
     if (!updatedProductData) {
@@ -113,11 +123,13 @@ const updateSingleProductById = async (req: Request, res: Response) => {
   }
 };
 
-const deleteSingleProductById = async (req: Request, res: Response) => {
+const deleteProduct = async (req: Request, res: Response) => {
   try {
     const productId = req.params.productId;
 
-    const deletedProduct = await Product.deleteOne({ _id: productId });
+    const deletedProduct = await ProductServices.deleteSingleProductByID(
+      productId
+    );
 
     if (deletedProduct.deletedCount) {
       return res.status(200).json({
@@ -141,8 +153,8 @@ const deleteSingleProductById = async (req: Request, res: Response) => {
 
 export const ProductController = {
   createProduct,
-  getAllProduct,
-  getSingleProductById,
-  updateSingleProductById,
-  deleteSingleProductById,
+  getProducts,
+  getSingleProduct,
+  updateSingleProduct,
+  deleteProduct,
 };

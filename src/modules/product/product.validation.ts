@@ -17,17 +17,8 @@ export const ProductValidationSchema = z.object({
     .array(z.string().min(1, { message: "Tag must be a non-empty string." }))
     .min(1, { message: "There must be at least one tag." }),
   variants: z
-    .array(
-      z.object({
-        type: z.string().min(1, {
-          message: "Variant type is required and must be a string.",
-        }),
-        value: z.string().min(1, {
-          message: "Variant value  is required and must be a string.",
-        }),
-      })
-    )
-    .optional(),
+    .array(z.object({ type: z.string(), value: z.string() }))
+    .min(1, { message: "Product must have at least one variant." }),
   inventory: z.object({
     quantity: z
       .number()

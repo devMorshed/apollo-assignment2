@@ -4,12 +4,10 @@ export interface IProduct {
   price: number;
   category: string;
   tags: string[];
-  variants: [
-    {
-      type: string;
-      value: string;
-    }
-  ];
+  variants: {
+    type: string;
+    value: string;
+  }[];
   inventory: {
     quantity: number;
     inStock: boolean;
