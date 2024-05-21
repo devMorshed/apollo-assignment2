@@ -1,11 +1,11 @@
 import { Request, Response } from "express";
-import { orderSchema } from "./order.validation";
+import { zodOrderSchema } from "./order.validation";
 import { OrderServices } from "./order.services";
 import { ZodError } from "zod";
 
 const createOrder = async (req: Request, res: Response) => {
   try {
-    const validatedOrder = orderSchema.parse(req.body);
+    const validatedOrder = zodOrderSchema.parse(req.body);
 
     const createdOrder = await OrderServices.createOderToDB(validatedOrder);
 
@@ -55,7 +55,6 @@ const getOrders = async (req: Request, res: Response) => {
       message,
       data: fetchedOrders,
     });
-    
   } catch (error) {
     return res.status(400).json({
       success: false,

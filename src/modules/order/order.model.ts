@@ -7,8 +7,7 @@ const OrderSchema = new Schema<IOrder>({
     required: true,
   },
   productId: {
-    type: Schema.Types.ObjectId,
-    ref: "Product",
+    type: String,
     required: true,
   },
   price: {
@@ -22,4 +21,3 @@ const OrderSchema = new Schema<IOrder>({
 });
 
 export const Order = model<IOrder>("Oder", OrderSchema);
- 

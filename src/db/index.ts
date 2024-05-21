@@ -7,8 +7,7 @@ const connectDB = async (): Promise<Connection> => {
       `${config.dbUrl}/${config.dbName}`
     );
     return connectionInstance.connection;
-  } catch (error: any) {
-    console.log("MONGODB connection Error", error.message);
+  } catch (error) {
     process.exit(1);
   }
 };

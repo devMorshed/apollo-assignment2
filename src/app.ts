@@ -1,4 +1,4 @@
-import express, { Application, NextFunction, Request, Response } from "express";
+import express, { Application, Request, Response } from "express";
 import cors from "cors";
 import config from "./config";
 import { productRoute } from "./modules/product/product.route";
@@ -21,18 +21,19 @@ app.use("/api/products", productRoute);
 app.use("/api/orders", orderRoute);
 
 // Test Route
-app.get("/api/test", (_req: Request, res: Response) =>
+app.get("/", (_req, res: Response) =>
   res.status(200).json({
     success: true,
-    message: "SERVER RUNNING",
+    message: "SERVER RUNNING 🔥",
   })
 );
 
 // Catch All Route
-app.all("*", (req: Request, res: Response, next: NextFunction) => {
-  const err = new Error(`Route ${req.originalUrl} not found`) as any;
-  err.statusCode = 404;
-  next(err);
+app.all("*", (req: Request, res: Response) => {
+  return res.status(404).json({
+    success: false,
+    message: "Route Not Found",
+  });
 });
 
 export default app;

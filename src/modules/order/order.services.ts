@@ -1,21 +1,17 @@
-import { zodOrderValidation } from "./order.validation";
 import { Order } from "./order.model";
+import { IOrder } from "./order.interface";
 
-const createOderToDB = async (order: zodOrderValidation) => {
+const createOderToDB = async (order: IOrder) => {
   const result = await Order.create(order);
   return result;
 };
 
 const getAllOrdersFromDB = async (email: string) => {
-  console.log(email);
-
   let query = {};
 
   if (email) {
     query = { email };
   }
-
-  console.log(query);
 
   const result = await Order.find(query);
   return result;

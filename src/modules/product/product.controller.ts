@@ -42,10 +42,15 @@ const getProducts = async (req: Request, res: Response) => {
 
     const fetchedProducts = await ProductServices.getProductsFromDB(searchTerm);
 
+    if (fetchedProducts.length === 0) {
+      return res.status(404).json({
+        success: false,
+        message: "Product not found",
+      });
+    }
+
     const message = searchTerm
-      ? fetchedProducts.length === 0
-        ? `No Product Found by ${searchTerm}`
-        : `Products matching search term ${searchTerm} fetched successfully!`
+      ? `Products matching search term ${searchTerm} fetched successfully!`
       : "Products fetched successfully!";
 
     return res.status(200).json({
@@ -56,11 +61,10 @@ const getProducts = async (req: Request, res: Response) => {
   } catch (error) {
     return res.status(400).json({
       success: false,
-      message: "Failed to fetch products!",
+      message: "Product not found",
     });
   }
 };
-
 const getSingleProduct = async (req: Request, res: Response) => {
   try {
     const productId = req.params.productId;
@@ -70,7 +74,7 @@ const getSingleProduct = async (req: Request, res: Response) => {
     if (!dbProduct) {
       return res.status(404).json({
         success: false,
-        message: "Product Not Found! EH?",
+        message: "Product Not Found!",
       });
     }
 
@@ -80,7 +84,6 @@ const getSingleProduct = async (req: Request, res: Response) => {
       data: dbProduct,
     });
   } catch (error) {
-    console.log(error);
     return res.status(400).json({
       success: false,
       message: "Failed to fetch product!",
@@ -109,12 +112,11 @@ const updateSingleProduct = async (req: Request, res: Response) => {
     if (updatedProductData) {
       return res.status(200).json({
         success: true,
-        message: "Product Updated successfully!",
+        message: "Product updated successfully!",
         data: updatedProductData,
       });
     }
   } catch (error) {
-    console.log(error);
     return res.status(500).json({
       success: false,
       message: "Something went wrong while updating product data!",
