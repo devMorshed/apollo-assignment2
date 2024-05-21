@@ -49,6 +49,7 @@ const getProducts = async (req: Request, res: Response) => {
       });
     }
 
+    // optional chainibg for selecting error message
     const message = searchTerm
       ? `Products matching search term ${searchTerm} fetched successfully!`
       : "Products fetched successfully!";
@@ -65,6 +66,9 @@ const getProducts = async (req: Request, res: Response) => {
     });
   }
 };
+
+
+// Get single Product
 const getSingleProduct = async (req: Request, res: Response) => {
   try {
     const productId = req.params.productId;
@@ -91,6 +95,8 @@ const getSingleProduct = async (req: Request, res: Response) => {
   }
 };
 
+
+// Update product
 const updateSingleProduct = async (req: Request, res: Response) => {
   try {
     const productId = req.params.productId;
@@ -124,6 +130,8 @@ const updateSingleProduct = async (req: Request, res: Response) => {
   }
 };
 
+
+// Deleting product
 const deleteProduct = async (req: Request, res: Response) => {
   try {
     const productId = req.params.productId;

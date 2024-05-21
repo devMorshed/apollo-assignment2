@@ -3,18 +3,32 @@ import { zodOrderSchema } from "./order.validation";
 import { OrderServices } from "./order.services";
 import { ZodError } from "zod";
 
+
+// creating orders
+
 const createOrder = async (req: Request, res: Response) => {
   try {
     const validatedOrder = zodOrderSchema.parse(req.body);
 
     const createdOrder = await OrderServices.createOderToDB(validatedOrder);
 
-    res.status(200).json({
+    return res.status(200).json({
       success: true,
       message: "Order Created Successfully",
       data: createdOrder,
     });
   } catch (error) {
+
+    // Error Handling for error format // given criteria
+    if (error instanceof Error) {
+      return res.status(500).json({
+        success: false,
+        message: error.message,
+      });
+    }
+
+
+    // Zod Validation Error Handling
     if (error instanceof ZodError) {
       const validationErrors = error.issues.map((issue) => {
         return issue.message;
@@ -22,7 +36,7 @@ const createOrder = async (req: Request, res: Response) => {
 
       return res.status(400).json({
         success: false,
-        message: `Validation Error Occured 🔥 ${validationErrors}`,
+        message: `Validation Error Occured! ${validationErrors}`,
       });
     }
 
