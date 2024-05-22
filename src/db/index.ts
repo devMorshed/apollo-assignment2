@@ -8,6 +8,7 @@ const connectDB = async (): Promise<Connection> => {
     );
     return connectionInstance.connection;
   } catch (error) {
+    console.log(error);
     process.exit(1);
   }
 };

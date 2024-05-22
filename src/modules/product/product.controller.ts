@@ -25,7 +25,7 @@ const createProduct = async (req: Request, res: Response) => {
 
       return res.status(400).json({
         success: false,
-        message: `Validation Error Occured 🔥 ${validationErrors}`,
+        message: `Validation Error Occured! ${validationErrors}`,
       });
     }
 
