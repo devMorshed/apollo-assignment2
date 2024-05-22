@@ -1,116 +1,133 @@
-# Apollo Assignment 2
+# Apollo Assignment 2 - Mongoose Mastery
 
-This repository contains the assignment for Apollo Next Level Developers' second assignment, focused on mastering Mongoose.
+This repository contains the code for the second assignment of Apollo Next Level Developers, focused on mastering the Mongoose library for interacting with MongoDB databases. 
 
-## Table of Contents
+## Getting Started
 
-- [Installation](#installation)
-- [Usage](#usage)
-- [Scripts](#scripts)
-- [Dependencies](#dependencies)
-- [Author](#author)
-- [License](#license)
+### Installation
 
-## Installation
+1. **Clone the Repository:**
 
-Follow the steps below to clone the repository and install the necessary dependencies:
+   Open your terminal and execute the following command to clone the repository locally:
 
-1. **Clone the repository**
-
-   Open your terminal and execute the following command to clone the repository:
-
-   ```bash
+```
    git clone https://github.com/devMorshed/apollo-assignment2.git
-   ```
+```
 
-2. **Navigate to the project directory**
+2. **Install Dependencies:**
 
-   Change to the project directory by running:
+Navigate to the project directory 
+```
+	cd apollo-assignment2
+```
 
-   ```bash
-   cd apollo-assignment2
-   ```
+and now install the required dependencies using Yarn:
 
-3. **Install dependencies**
+```
+	yarn install
+```
 
-   Install the project dependencies using Yarn:
+## Project Usage
 
-   ```bash
-   yarn install
-   ```
+**Environment Variables**
 
-## Usage
+Before starting the server, create a `.env` file in the project's root directory. This file should contain the following environment variables:
 
-To run the project, you can use one of the following scripts:
+- `PORT` (default: 3000): Defines the port number on which the server listens for incoming requests.
+- `DB_URL`: Stores the connection string for your MongoDB database (replace `<your_MongoDB_connection_string>` with the actual connection details).
 
-1. **Start the server in production mode**
+```
+PORT=3000
+DB_URL=your_db_url
+```
 
-   This command will run the compiled JavaScript file located at `./dist/server.js`:
+**Running the Server**
 
-   ```bash
-   yarn run start:prod
-   ```
+There are two options for running the server:
 
-2. **Start the server in development mode**
+**1. Development Mode (Automatic Restart):**
 
-   This command will use `ts-node-dev` to run the server from the TypeScript source files and will automatically restart the server on file changes:
+In development mode, the server automatically restarts whenever you make changes to the codebase. This is ideal for rapid development and debugging. Use the following command to start the server in development mode:
 
-   ```bash
-   yarn run start:dev
-   ```
+```
+yarn run start:dev
+```
 
-3. **Lint the project**
 
-   This command will run ESLint to check for code quality and style issues:
+**2. Production Mode (Compiled JavaScript):**
 
-   ```bash
-   yarn run lint
-   ```
+For production deployments, it's recommended to compile the TypeScript codebase into optimized JavaScript for better performance. Here's the process:
 
-4. **Fix linting issues**
+a. **Build the Project:**
 
-   This command will run ESLint and automatically fix any fixable issues:
+```
+  yarn run build
+```
 
-   ```bash
-   yarn run lint:fix
-   ```
+b. **Start the Server:**
 
-## Scripts
+Once the build process completes, start the server using the compiled JavaScript file:
 
-- **`yarn run build:watch`**: It will execute the `tsc -w` which will build the typescript to javascript on the run which can be use in the development environment also to build and run js from the `dist/` folder.
-- **`yarn run start:prod`**: Runs the compiled server (`./dist/server.js`).
-- **`yarn run start:dev`**: Runs the server in development mode using `ts-node-dev`.
-- **`yarn run lint`**: Runs ESLint to check for code quality issues.
-- **`yarn run lint:fix`**: Runs ESLint and automatically fixes any issues.
+  ```
+  yarn run start:prod
+  ```
+
+
+## Code Quality Management
+
+This project utilizes ESLint for code linting and style enforcement, ensuring consistent and maintainable code.
+
+- **Check Code Quality:**
+
+    ```
+    yarn run lint
+    ```
+
+- **Automatic Linting Fixes:**
+
+    ```
+    yarn run lint:fix
+    ```
+    
+This command automatically attempts to fix any identified linting issues.
+
+## Available Scripts
+
+The project provides various scripts for development and production workflows:
+
+- `yarn run build`: Compiles TypeScript code into optimized JavaScript.
+- `yarn run build:watch`: Continuously compiles TypeScript code in watch mode, ideal for development.
+- `yarn run start:prod`: Starts the server using the compiled JavaScript file.
+- `yarn run start:dev`: Starts the server in development mode with automatic restarting.
+- `yarn run lint`: Runs ESLint for code quality checks.
+- `yarn run lint:fix`: Runs ESLint and attempts to automatically fix linting issues.
 
 ## Dependencies
 
-| Dependency | Version |
-| ---------- | ------- |
-| `cors`     | ^2.8.5  |
-| `dotenv`   | ^16.4.5 |
-| `express`  | ^4.19.2 |
-| `mongoose` | ^8.4.0  |
-| `zod`      | ^3.23.8 |
+This project relies on the following external libraries:
 
-### Development Dependencies
+- `cors`: Enables Cross-Origin Resource Sharing (CORS) for secure API interactions.
+- `dotenv`: Facilitates loading environment variables from a `.env` file.
+- `express`: Provides a lightweight web framework for building APIs and web applications.
+- `mongoose`: Offers an object-oriented ODM (Object Data Modeling) library for interacting with MongoDB.
+- `zod`: Simplifies data validation and schema definition.
 
-| Dependency          | Version   |
-| ------------------- | --------- |
-| `@eslint/js`        | ^9.3.0    |
-| `@types/cors`       | ^2.8.17   |
-| `@types/express`    | ^4.17.21  |
-| `@types/node`       | ^20.12.12 |
-| `eslint`            | ^8.57.0   |
-| `nodemon`           | ^3.1.0    |
-| `ts-node-dev`       | ^2.0.0    |
-| `typescript`        | ^5.4.5    |
-| `typescript-eslint` | ^7.9.0    |
+## Development Dependencies
+
+The following additional packages are required for development tasks:
+
+- `@eslint/js`: Core ESLint library for JavaScript code linting.
+- `@types/cors`, `@types/express`, `@types/node`: Type definitions for linting and code completion.
+- `eslint`: Command-line interface for running ESLint.
+- `nodemon`: Monitors code changes and automatically restarts the server in development mode.
+- `ts-node-dev`: Enables running TypeScript code directly without manual compilation.
+- `typescript`: The core TypeScript compiler used for type checking and transpilation.
+- `typescript-eslint`: ESLint plugin for TypeScript linting.
 
 ## Author
 
-**devMorshed**
+devMorshed
 
 ## License
 
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for more details.
+This project is licensed under the MIT License. For details, refer to the LICENSE file within the repository.
