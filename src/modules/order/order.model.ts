@@ -42,4 +42,4 @@ OrderSchema.pre("save", async function (next) {
   next();
 });
 
-export const Order = model<IOrder>("Oder", OrderSchema);
+export const Order = model<IOrder>("Order", OrderSchema);

@@ -1,7 +1,7 @@
 import { Order } from "./order.model";
 import { IOrder } from "./order.interface";
 
-const createOderToDB = async (order: IOrder) => {
+const createOrderToDB = async (order: IOrder) => {
   const result = await Order.create(order);
   return result;
 };
@@ -18,6 +18,6 @@ const getAllOrdersFromDB = async (email: string) => {
 };
 
 export const OrderServices = {
-  createOderToDB,
+  createOrderToDB,
   getAllOrdersFromDB,
 };

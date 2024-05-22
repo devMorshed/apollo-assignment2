@@ -3,14 +3,13 @@ import { zodOrderSchema } from "./order.validation";
 import { OrderServices } from "./order.services";
 import { ZodError } from "zod";
 
-
 // creating orders
 
 const createOrder = async (req: Request, res: Response) => {
   try {
     const validatedOrder = zodOrderSchema.parse(req.body);
 
-    const createdOrder = await OrderServices.createOderToDB(validatedOrder);
+    const createdOrder = await OrderServices.createOrderToDB(validatedOrder);
 
     return res.status(200).json({
       success: true,
@@ -18,7 +17,6 @@ const createOrder = async (req: Request, res: Response) => {
       data: createdOrder,
     });
   } catch (error) {
-
     // Error Handling for error format // given criteria
     if (error instanceof Error) {
       return res.status(500).json({
@@ -26,7 +24,6 @@ const createOrder = async (req: Request, res: Response) => {
         message: error.message,
       });
     }
-
 
     // Zod Validation Error Handling
     if (error instanceof ZodError) {
